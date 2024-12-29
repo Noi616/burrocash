@@ -1,0 +1,142 @@
+/* General */
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #FFFFFF; /* Fondo blanco */
+    color: #333333; /* Texto gris oscuro */
+    transition: all 0.2s ease-in-out;
+}
+
+/* Hero Section */
+.hero-section {
+    background-color: #1B3A34; /* Verde oscuro principal */
+    color: #FFFFFF; /* Texto blanco */
+    text-align: center;
+    padding: 50px 20px;
+}
+.hero-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #FFFFFF;
+}
+
+/* Features Section */
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin: 40px 20px;
+}
+.feature-card {
+    background: #FFFFFF; /* Fondo blanco */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    flex: 1 1 300px;
+    max-width: 300px;
+    border: 2px solid #6A9D92; /* Verde suave */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+.feature-card img {
+    width: 100%; /* Ocupa el ancho completo del contenedor */
+    max-width: 150px; /* Máximo ancho para mantener proporción */
+    height: auto; /* Mantiene las proporciones originales */
+    margin-bottom: 15px;
+    border-radius: 10px; /* Agrega bordes redondeados si es necesario */
+}
+
+/* Call-to-Action Section */
+.call-to-action {
+    text-align: center;
+    margin: 40px 0;
+}
+.call-to-action a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2E5D50; /* Verde medio */
+    color: #FFFFFF; /* Texto blanco */
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+.call-to-action a:hover {
+    background-color: #1B3A34; /* Verde oscuro */
+}
+
+/* Sidebar */
+.bg-gradient-primary {
+    background-color: #1B3A34 !important; /* Verde oscuro principal */
+    background-image: none !important; /* Elimina degradados */
+}
+.navbar-nav .nav-item .nav-link:hover {
+    background-color: #2E5D50 !important; /* Verde medio */
+    color: #FFFFFF !important; /* Texto blanco */
+}
+.navbar-nav .nav-item .nav-link {
+    color: #FFFFFF !important; /* Texto blanco */
+}
+.navbar-nav .nav-item .nav-link i {
+    color: #6A9D92 !important; /* Verde suave */
+}
+.sidebar-divider {
+    border-color: #6A9D92 !important; /* Verde suave */
+}
+
+
+/* Botones */
+.btn-info {
+    background-color: #2E5D50 !important; /* Verde medio */
+    border-color: #2E5D50 !important;
+    color: #FFFFFF !important; /* Texto blanco */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-info:hover {
+    background-color: #1B3A34 !important; /* Verde oscuro */
+    border-color: #1B3A34 !important;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Ícono de la barra de búsqueda */
+.navbar-search .input-group .input-group-append .btn i {
+    color: #6A9D92 !important; /* Verde suave */
+}
+
+/* Fondo del botón de búsqueda */
+.navbar-search .input-group .input-group-append .btn {
+    background-color: #2E5D50 !important; /* Verde medio */
+    border-color: #2E5D50 !important;
+}
+
+/* Hover en el botón de búsqueda */
+.navbar-search .input-group .input-group-append .btn:hover {
+    background-color: #1B3A34 !important; /* Verde oscuro */
+    border-color: #1B3A34 !important;
+    color: #FFFFFF !important; /* Texto blanco */
+}
+
+
+/* Enlaces Generales */
+a {
+    color: #6A9D92; /* Verde suave */
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+a:hover {
+    color: #2E5D50; /* Verde medio */
+    text-decoration: underline;
+}
+
+/* Encabezados */
+h1, h2, h3, h4, h5, h6 {
+    color: #333333; /* Gris oscuro */
+}
+
+/* Transiciones Globales */
+* {
+    transition: all 0.2s ease-in-out;
+}

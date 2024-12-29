@@ -1,0 +1,99 @@
+/* Estilo general del body */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #1B3A34 !important; /* Verde oscuro */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Título del formulario */
+h1 {
+    color: #FFFFFF !important; /* Blanco */
+    text-align: center;
+    font-weight: bold; /* Aseguramos que se vea destacado */
+    margin-bottom: 20px; /* Espaciado inferior */
+}
+
+
+/* Logo */
+.logo {
+    max-width: 150px; /* Tamaño máximo de la imagen */
+    margin-bottom: 20px; /* Espaciado entre la imagen y el título */
+    margin-top: 40px; /* Espaciado superior */
+}
+
+/* Contenedor del formulario */
+form {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+/* Etiquetas */
+.form-label {
+    font-weight: bold;
+    color: #FFFFFF; /* Blanco */
+}
+
+/* Inputs */
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #FFFFFF; /* Blanco */
+    padding: 10px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #6A9D92 !important; /* Verde suave */
+    box-shadow: 0 0 0 0.25rem rgba(106, 157, 146, 0.25) !important; /* Sombra verde */
+}
+
+/* Checkbox */
+.form-check-input {
+    cursor: pointer;
+    accent-color: #2E5D50 !important; /* Verde medio */
+}
+
+.form-check-label {
+    margin-left: 5px;
+    font-size: 0.9rem;
+    color: #D1E7DD; /* Verde claro */
+}
+
+/* Botón */
+.btn-primary {
+    width: 100%;
+    background-color: #2E5D50 !important; /* Verde medio */
+    border: 1px solid #2E5D50 !important; /* Verde medio */
+    padding: 10px;
+    font-size: 1rem;
+    color: #FFFFFF !important; /* Texto en blanco */
+    transition: background-color 0.3s, transform 0.2s;
+    outline: none !important; /* Elimina el borde azul al enfocarse */
+    box-shadow: none !important; /* Elimina la sombra */
+}
+
+.btn-primary:focus {
+    border-color: #6A9D92 !important; /* Verde suave */
+}
+
+.btn-primary:hover {
+    background-color: #1B3A34 !important; /* Verde oscuro */
+    transform: scale(1.05);
+}
+
+/* Enlaces adicionales */
+.text-center a {
+    color: #6A9D92; /* Verde suave */
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.text-center a:hover {
+    color: #2E5D50; /* Verde medio */
+    text-decoration: underline;
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>ESCOMDeals - Registro</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ESCOMDeals: plataforma para registro de nuevos usuarios en ESCOM">
+    <link rel="stylesheet" href="./estilos/registro.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <img src="./imagenes/logo2.png" alt="Logo" class="logo">
+
+    <!-- Título principal -->
+    <h1 class="text-center my-4">Registro</h1>
+
+    <!-- Formulario -->
+    <form action="./php/registro.php" method="POST">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="nombres" name="nombre" placeholder="Nombres">
+                    <label for="nombres">Nombre</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="apellidoPaterno" name="apellido_paterno" placeholder="Apellido paterno">
+                    <label for="apellidoPaterno">Apellido paterno</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="apellidoMaterno" name="apellido_materno" placeholder="Apellido materno">
+                    <label for="apellidoMaterno">Apellido materno</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input type="tel" class="form-control" id="numeroTelefono" name="numero_telefono" placeholder="Número de teléfono">
+                    <label for="numeroTelefono">Número de teléfono</label>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="form-floating">
+                <input type="email" class="form-control" id="correoElectronico" name="correo" placeholder="Correo electrónico">
+                <label for="correoElectronico">Correo electrónico</label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="form-floating">
+                <input type="password" class="form-control" id="contraseña" name="contraseña" placeholder="Contraseña">
+                <label for="contraseña">Contraseña</label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="form-floating">
+                <input type="password" class="form-control" id="confirmarContraseña" name="confirmar_contraseña" placeholder="Confirmar contraseña">
+                <label for="confirmarContraseña">Confirmar contraseña</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+    
+        <!-- Enlaces adicionales -->
+        <div class="text-center mt-3">
+            <a href="login.html" class="text-decoration-none">¿Ya tienes una cuenta? Inicia sesión</a>
+        </div>
+    </form>
+    
+</body>
+</html>
