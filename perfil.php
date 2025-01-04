@@ -93,18 +93,21 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
 
         function enableEdit() {
     const editButton = document.getElementById('edit-button');
-    const inputs = document.querySelectorAll('.form-control'); // Todos los campos del formulario
+    const inputs = document.querySelectorAll('.form-control');
+    const uploadButton = document.getElementById('upload-button'); // Botón de cambiar foto
 
     if (editButton.textContent.trim() === 'Editar') {
-        // Cambiar a "Cancelar" y habilitar los campos
+        // Cambiar a "Cancelar", habilitar campos y mostrar botón "Cambiar Foto"
         editButton.textContent = 'Cancelar';
         inputs.forEach(input => input.removeAttribute('disabled'));
-        document.getElementById('save-button').classList.remove('d-none'); // Mostrar el botón "Guardar Cambios"
+        document.getElementById('save-button').classList.remove('d-none'); // Mostrar "Guardar Cambios"
+        uploadButton.style.display = 'inline-block'; // Mostrar botón "Cambiar Foto"
     } else {
-        // Cambiar a "Editar" y deshabilitar los campos
+        // Cambiar a "Editar", deshabilitar campos y ocultar botón "Cambiar Foto"
         editButton.textContent = 'Editar';
         inputs.forEach(input => input.setAttribute('disabled', 'true'));
-        document.getElementById('save-button').classList.add('d-none'); // Ocultar el botón "Guardar Cambios"
+        document.getElementById('save-button').classList.add('d-none'); // Ocultar "Guardar Cambios"
+        uploadButton.style.display = 'none'; // Ocultar botón "Cambiar Foto"
     }
 }
 
