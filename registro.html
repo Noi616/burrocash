@@ -18,17 +18,19 @@
     <h1 class="text-center my-4">Registro</h1>
 
     <!-- Formulario -->
-    <form action="./php/registro.php" method="POST">
+    <form action="./php/registro_prueba.php" method="POST" id="registroForm">
         <div class="row mb-3">
             <div class="col-md-6">
                 <div class="form-floating">
                     <input type="text" class="form-control" id="nombres" name="nombre" placeholder="Nombres">
+                    <span class="error-message"></span> <!-- Contenedor para el mensaje de error -->
                     <label for="nombres">Nombre</label>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="apellidoPaterno" name="apellido_paterno" placeholder="Apellido paterno">
+                    <input type="text" class="form-control" id="apellidoPaterno" name="apellidoPaterno" placeholder="Apellido paterno">
+                    <span class="error-message"></span> <!-- Contenedor para el mensaje de error -->
                     <label for="apellidoPaterno">Apellido paterno</label>
                 </div>
             </div>
@@ -36,42 +38,74 @@
         <div class="row mb-3">
             <div class="col-md-6">
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="apellidoMaterno" name="apellido_materno" placeholder="Apellido materno">
+                    <input type="text" class="form-control" id="apellidoMaterno" name="apellidoMaterno" placeholder="Apellido materno">
+                    <span class="error-message"></span> <!-- Contenedor para el mensaje de error -->
                     <label for="apellidoMaterno">Apellido materno</label>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-floating">
-                    <input type="tel" class="form-control" id="numeroTelefono" name="numero_telefono" placeholder="Número de teléfono">
+                    <input type="tel" class="form-control" id="numeroTelefono" name="telefono" placeholder="Número de teléfono">
+                    <span class="error-message"></span> <!-- Contenedor para el mensaje de error -->
                     <label for="numeroTelefono">Número de teléfono</label>
                 </div>
             </div>
         </div>
         <div class="mb-3">
             <div class="form-floating">
-                <input type="email" class="form-control" id="correoElectronico" name="correo" placeholder="Correo electrónico">
+                <input type="email" class="form-control" id="correoElectronico" name="email" placeholder="Correo electrónico">
+                <span class="error-message"></span> <!-- Contenedor para el mensaje de error -->
                 <label for="correoElectronico">Correo electrónico</label>
             </div>
         </div>
         <div class="mb-3">
             <div class="form-floating">
-                <input type="password" class="form-control" id="contraseña" name="contraseña" placeholder="Contraseña">
+                <input type="password" class="form-control" id="contraseña" name="password" placeholder="Contraseña">
+                <span class="error-message"></span> <!-- Contenedor para el mensaje de error -->
                 <label for="contraseña">Contraseña</label>
             </div>
         </div>
         <div class="mb-3">
             <div class="form-floating">
                 <input type="password" class="form-control" id="confirmarContraseña" name="confirmar_contraseña" placeholder="Confirmar contraseña">
+                <span class="error-message"></span> <!-- Contenedor para el mensaje de error -->
                 <label for="confirmarContraseña">Confirmar contraseña</label>
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Registrarse</button>
+
+       
+
     
         <!-- Enlaces adicionales -->
         <div class="text-center mt-3">
             <a href="login.html" class="text-decoration-none">¿Ya tienes una cuenta? Inicia sesión</a>
         </div>
-    </form>
+
+    </form>    
+
+        <!-- Modal -->
+        <div class="modal fade" id="mensajeModal" tabindex="-1" aria-labelledby="mensajeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="mensajeModalLabel">Mensaje</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="mensajeModalTexto">
+                        <!-- Aquí irá el mensaje -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+    <script src="./js/chido/validaciones.js"></script>
     
 </body>
 </html>

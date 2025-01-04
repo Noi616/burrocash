@@ -6,6 +6,7 @@ CREATE TABLE usuario (
     numero_telefono VARCHAR(15),              -- Número de teléfono
     correo VARCHAR(100) NOT NULL UNIQUE,      -- Correo electrónico (debe ser único)
     contraseña VARCHAR(255) NOT NULL          -- Contraseña (encriptada si es posible)
+    foto_perfil VARCHAR (1000)
 );
 
 CREATE TABLE registraradeudo (

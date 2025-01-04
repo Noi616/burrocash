@@ -29,7 +29,7 @@ h1 {
 /* Contenedor del formulario */
 form {
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
     padding: 20px;
 }
 
@@ -96,4 +96,11 @@ form {
 .text-center a:hover {
     color: #2E5D50; /* Verde medio */
     text-decoration: underline;
+}
+
+
+.error-message {
+    color: #ee2e2e; /* Rojo */
+    font-size: 0.875rem; /* Tamaño pequeño */
+    margin-top: 0.25rem; /* Separación del campo */
 }

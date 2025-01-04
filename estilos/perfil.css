@@ -1,0 +1,179 @@
+/* Estilos Generales */
+body {
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1B3A34; /* Fondo verde oscuro */
+    color: #000000; /* Texto blanco */
+    transition: all 0.2s ease-in-out;
+}
+
+/* Header */
+.header {
+    background-color: #2E5D50; /* Verde medio */
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 2px solid #6A9D92; /* Verde suave */
+}
+
+/* Contenedor Principal */
+.profile-container {
+    max-width: 600px;
+    margin: 20px auto;
+    background: #FFFFFF; /* Fondo blanco */
+    border-radius: 8px;
+    padding: 20px;
+    color: #333; /* Texto gris oscuro */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Títulos */
+h1, h2 {
+    text-align: center;
+    color: #2E5D50; /* Verde medio */
+}
+
+/* Foto de Perfil */
+.profile-photo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.photo-container {
+    position: relative;
+    display: inline-block;
+}
+
+.photo-container img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #6A9D92; /* Verde suave */
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.photo-container button {
+    display: block;
+    margin: 0 auto;
+    padding: 8px 12px;
+    background-color: #FFC107; /* Amarillo */
+    color: #1B3A34; /* Verde oscuro */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.photo-container button:hover {
+    background-color: #E0A800; /* Amarillo más oscuro */
+}
+
+/* Información del Usuario */
+.user-info, .preferences {
+    margin-bottom: 20px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.info-item label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #2E5D50; /* Verde medio */
+}
+
+.info-item input, .info-item select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #6A9D92; /* Verde suave */
+    border-radius: 4px;
+    background-color: #FFFFFF; /* Fondo blanco */
+    color: #333; /* Texto gris oscuro */
+}
+
+.info-item input[type="checkbox"] {
+    width: auto;
+}
+
+/* Botón Guardar Cambios */
+.save-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #2E5D50; /* Verde medio */
+    color: #FFFFFF; /* Texto blanco */
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.save-button:hover {
+    background-color: #1B3A34; /* Verde oscuro */
+    transform: scale(1.05);
+}
+
+/* Botones Personalizados */
+.btn-yellow {
+    background-color: #FFC107; /* Amarillo */
+    color: #333; /* Texto gris oscuro */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-yellow:hover {
+    background-color: #E0A800; /* Amarillo más oscuro */
+}
+
+/* Botones Amarillo Alternativo */
+.btn-yellow-alt {
+    background-color: #FFD966; /* Amarillo pastel */
+    color: #333; /* Texto gris oscuro */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-yellow-alt:hover {
+    background-color: #E6C84D; /* Amarillo pastel más oscuro */
+}
+
+/* Hover y Transiciones Generales */
+* {
+    transition: all 0.2s ease-in-out;
+}
+
+
+
+button.btn {
+    margin-right: 10px; /* Espacio a la derecha entre botones */
+}
+
+
+.photo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrar tanto la imagen como el botón */
+}
+
+.photo-container img {
+    margin-bottom: 15px; /* Espacio entre la imagen y el botón */
+}
+
+#upload-button {
+    margin: 0; /* Asegúrate de que no tenga margen adicional */
+}
+
