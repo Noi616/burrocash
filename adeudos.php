@@ -8,6 +8,10 @@ if (!isset($_SESSION['nombre'])) {
 ?>
 
 
+<?php
+$current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo actual
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,83 +41,114 @@ if (!isset($_SESSION['nombre'])) {
 
 <body id="page-top">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
 
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+  <!-- Page Wrapper -->
+  <div id="wrapper">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">Burrocash</div>
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-laugh-wink"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">Burrocash</div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Dashboard -->
+        <li class="nav-item <?php echo $current_page == 'inicio.php' ? 'active' : ''; ?>">
+            <a class="nav-link" href="inicio.php">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Inicio</span>
             </a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Shortcuts -->
+        <li class="nav-item <?php echo $current_page == 'perfil.php' ? 'active' : ''; ?>">
+            <a class="nav-link" href="perfil.php">
+                <i class="fas fa-user"></i>
+                <span>Mi Perfil</span>
+            </a>
+        </li>
+        <!-- Tarjetas -->
+        <!-- Sección activa: Tarjetas -->
+        <!-- Tarjetas -->
+        <li class="nav-item <?php echo $current_page == 'tarjetas.php' ? 'active' : ''; ?>">
+            <a class="nav-link" href="tarjetas.php">
+                <i class="fas fa-credit-card"></i>
+                <span>Tarjetas</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item <?php echo $current_page == 'configuracion.php' ? 'active' : ''; ?>">
+            <a class="nav-link" href="settings.html">
+                <i class="fas fa-cog"></i>
+                <span>Configuración</span>
+            </a>
+        </li>
+        <li class="nav-item <?php echo $current_page == 'notificaciones.php' ? 'active' : ''; ?>">
+            <a class="nav-link" href="notifications.html">
+                <i class="fas fa-bell"></i>
+                <span>Notificaciones</span>
+            </a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- New Sections -->
+        <li class="nav-item <?php echo $current_page == 'adeudos.php' ? 'active' : ''; ?>">
+            <a class="nav-link" href="adeudos.html">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>Adeudos</span>
+            </a>
+        </li>
+        <li class="nav-item <?php echo $current_page == 'deudas.php' ? 'active' : ''; ?>">
+            <a class="nav-link" href="deudas.html">
+                <i class="fas fa-hand-holding-usd"></i>
+                <span>Deudas</span>
+            </a>
+        </li>
+        <li class="nav-item <?php echo $current_page == 'inversiones.php' ? 'active' : ''; ?>">
+            <a class="nav-link" href="inversiones.html">
+                <i class="fas fa-chart-line"></i>
+                <span>Inversiones</span>
+            </a>
+        </li>
         
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-        
-            <!-- Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Inicio</span>
-                </a>
-            </li>
-        
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-        
-            <!-- Shortcuts -->
-            <li class="nav-item">
-                <a class="nav-link" href="profile.html">
-                    <i class="fas fa-user"></i>
-                    <span>Mi Perfil</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="settings.html">
-                    <i class="fas fa-cog"></i>
-                    <span>Configuración</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="notifications.html">
-                    <i class="fas fa-bell"></i>
-                    <span>Notificaciones</span>
-                </a>
-            </li>
-        
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-        
-            <!-- New Sections -->
-            <li class="nav-item">
-                <a class="nav-link" href="adeudos.html">
-                    <i class="fas fa-file-invoice-dollar"></i>
-                    <span>Adeudos</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="deudas.html">
-                    <i class="fas fa-hand-holding-usd"></i>
-                    <span>Deudas</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="inversiones.html">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Inversiones</span>
-                </a>
-            </li>
+            <!-- Ingresos -->
+            <li class="nav-item <?php echo $current_page == 'ingresos.php' ? 'active' : ''; ?>">
+            <a class="nav-link" href="ingresos.html">
+                <i class="fas fa-wallet"></i>
+                <span>Ingresos</span>
+            </a>
+        </li>
+
+        <!-- Presupuestos -->
+        <li class="nav-item <?php echo $current_page == 'presupuestos.php' ? 'active' : ''; ?>">
+            <a class="nav-link" href="presupuestos.html">
+                <i class="fas fa-file-invoice"></i>
+                <span>Presupuestos</span>
+            </a>
+        </li>
+
+
+
         
 
-            
-        
-        </ul>
-        
-        <!-- End of Sidebar -->
+    </ul>
+
+    <!-- End of Sidebar -->
+
+
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -202,8 +237,8 @@ if (!isset($_SESSION['nombre'])) {
                     <?php echo htmlspecialchars($_SESSION['nombre']); ?>
                 </span>
 
-            <img class="img-profile rounded-circle"
-                src="img/undraw_profile.svg">
+                <img src="php/<?php echo htmlspecialchars($_SESSION['foto_perfil']); ?>" alt="Foto de perfil" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+
         </a>
             <!-- Dropdown - User Information -->
     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -234,18 +269,139 @@ if (!isset($_SESSION['nombre'])) {
 <!-- End of Topbar -->
 
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Encabezado -->
+<!-- Encabezado -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-green-900">Gestión de adeudos</h1>
+    <!-- Botón para abrir el modal -->
+    <button class="btn" id="addCardButton" data-toggle="modal" data-target="#registerCardModal" style="background-color: #2D5C47; color: white;">
+        <i class="fas fa-plus-circle"></i> Registrar Nuevo Adeudo
+    </button>
+    <!-- Botón para filtrar categorías -->
+    <button class="btn" id="filterCategoryButton" data-toggle="modal" data-target="#filterCategoryModal" style="background-color: #2D5C47; color: white;">
+        <i class="fas fa-filter"></i> Filtrar Categoría
+    </button>
+</div>
+
+<!-- Modal para filtrar categorías -->
+<div class="modal fade" id="filterCategoryModal" tabindex="-1" role="dialog" aria-labelledby="filterCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #2D5C47; color: white;">
+                <h5 class="modal-title" id="filterCategoryModalLabel">Seleccionar Categoría</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="modalCategoriaAdeudos">Categoría:</label>
+                        <select class="form-control" id="modalCategoriaAdeudos" style="border: 1px solid #123C39; color: #123C39;">
+                            <option value="servicios">Servicios</option>
+                            <option value="prestamos">Préstamos</option>
+                            <option value="tarjetas">Tarjetas de Crédito</option>
+                            <option value="otros">Otros</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Aplicar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Visualización de Adeudos -->
+<div class="card shadow mb-4">
+    <h6 class="m-0 font-weight-bold" style="color: black;">Lista de Adeudos</h6>
+    <div class="card-body" style="background-color: #F8F9FA;">
+        <div class="table-responsive">
+            <table class="table table-bordered" style="color: #123C39;" id="dataTable" width="100%" cellspacing="0">
+                <thead style="background-color: #123C39; color: white;">
+                    <tr>
+                        <th style="color: white;">Acreedor</th>
+                        <th style="color: white;">Monto</th>
+                        <th style="color: white;">Fecha de Vencimiento</th>
+                        <th style="color: white;">Estado</th>
+                        <th style="color: white;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="color: #123C39;">Banco ABC</td>
+                        <td style="color: #123C39;">$10,000</td>
+                        <td style="color: #123C39;">2025-01-10</td>
+                        <td style="color: #123C39;">Pendiente</td>
+                        <td style="color: #123C39;">
+                            <button class="btn btn-info btn-sm" onclick="viewSubcategories('Banco ABC')">Ver Subcategorías</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color: #123C39;">Proveedor XYZ</td>
+                        <td style="color: #123C39;">$5,000</td>
+                        <td style="color: #123C39;">2025-01-15</td>
+                        <td style="color: #123C39;">Pagado</td>
+                        <td style="color: #123C39;">
+                            <button class="btn btn-info btn-sm" onclick="viewSubcategories('Proveedor XYZ')">Ver Subcategorías</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Registrar Subadeudo Modal -->
+<div class="modal fade" id="registerCardModal" tabindex="-1" role="dialog" aria-labelledby="registerCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #2D5C47; color: white;">
+                <h5 class="modal-title" id="registerCardModalLabel">Registrar Subadeudo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="subdebtName">Nombre del Subadeudo</label>
+                        <input type="text" class="form-control" id="subdebtName" placeholder="Ingrese el nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="subdebtAmount">Monto</label>
+                        <input type="number" class="form-control" id="subdebtAmount" placeholder="Ingrese el monto">
+                    </div>
+                    <div class="form-group">
+                        <label for="subdebtDate">Fecha de Vencimiento</label>
+                        <input type="date" class="form-control" id="subdebtDate">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function viewSubcategories(creditor) {
+        alert(`Ver subcategorías para ${creditor}`);
+    }
+</script>
+
+<!-- End of Page Content -->
+
+<!-- End of Page Content -->
 
 
-
-                    
-
-
-
-
-                    
-            <!-- End of Main Content -->
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
