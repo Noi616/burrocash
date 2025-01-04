@@ -1,6 +1,6 @@
 <?php
-function sugerirLimiteGastos($usuario_id, $conn) {
-    $sql = "SELECT AVG(monto_total) as promedio_gastos FROM deudas WHERE id_usuario = $usuario_id";
+function sugerirLimiteGastos($id_usuario, $conn) {
+    $sql = "SELECT AVG(monto_total) as promedio_gastos FROM deudas WHERE id_usuario = $id_usuario";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -12,7 +12,7 @@ function sugerirLimiteGastos($usuario_id, $conn) {
     }
 }
 
-$usuario_id = 1; // Cambia esto por el ID del usuario actual
-$limiteSugerido = sugerirLimiteGastos($usuario_id, $conn);
+$id_usuario = 1; // Cambia esto por el ID del usuario actual
+$limiteSugerido = sugerirLimiteGastos($id_usuario, $conn);
 echo "Límite de gasto sugerido: $limiteSugerido";
 ?>

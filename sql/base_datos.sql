@@ -5,7 +5,7 @@ CREATE TABLE usuario (
     apellido_materno VARCHAR(50),             -- Apellido materno (puede ser opcional)
     numero_telefono VARCHAR(15),              -- Número de teléfono
     correo VARCHAR(100) NOT NULL UNIQUE,      -- Correo electrónico (debe ser único)
-    contraseña VARCHAR(255) NOT NULL          -- Contraseña (encriptada si es posible)
+    contraseña VARCHAR(255) NOT NULL,          -- Contraseña (encriptada si es posible)
     foto_perfil VARCHAR (1000)
 );
 
@@ -51,9 +51,8 @@ CREATE TABLE presupuestos (
     id_presupuesto INT AUTO_INCREMENT PRIMARY KEY, 
     nombre VARCHAR(100) NOT NULL, 
     descripcion VARCHAR(100), 
-    monto INT, 
-    fecha_inicio DATE NOT NULL, 
-    fecha_fin DATE NOT NULL, 
+    ingresos INT, 
+    gastos INT,
     id_categoria INT, 
     id_usuario INT NOT NULL,
     FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria),
@@ -105,7 +104,7 @@ CREATE TABLE transacciones (
     descripcion VARCHAR(100) NOT NULL,
     id_categoria INT,
     id_usuario INT NOT NULL, 
-    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria),
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
