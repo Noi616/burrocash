@@ -19,6 +19,16 @@ body {
     color: #FFFFFF;
 }
 
+.nav-item.active {
+    background-color: #2E5D50 !important; /* Verde medio */
+    border-left: 4px solid #6A9D92; /* Línea vertical para indicar sección activa */
+}
+
+.nav-item.active .nav-link {
+    color: #FFFFFF !important; /* Texto en blanco */
+}
+
+
 /* Features Section */
 .features {
     display: flex;

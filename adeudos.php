@@ -7,11 +7,6 @@ if (!isset($_SESSION['nombre'])) {
 }
 ?>
 
-<?php
-$current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo actual
-?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,111 +37,83 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
 
 <body id="page-top">
 
-   <!-- Page Wrapper -->
-   <div id="wrapper">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
-<!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-    <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">Burrocash</div>
-    </a>
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Burrocash</div>
+            </a>
+        
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+        
+            <!-- Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Inicio</span>
+                </a>
+            </li>
+        
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+        
+            <!-- Shortcuts -->
+            <li class="nav-item">
+                <a class="nav-link" href="profile.html">
+                    <i class="fas fa-user"></i>
+                    <span>Mi Perfil</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="settings.html">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuración</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="notifications.html">
+                    <i class="fas fa-bell"></i>
+                    <span>Notificaciones</span>
+                </a>
+            </li>
+        
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+        
+            <!-- New Sections -->
+            <li class="nav-item">
+                <a class="nav-link" href="adeudos.html">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Adeudos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="deudas.html">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <span>Deudas</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="inversiones.html">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Inversiones</span>
+                </a>
+            </li>
+        
 
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
-
-    <!-- Dashboard -->
-    <li class="nav-item <?php echo $current_page == 'inicio.php' ? 'active' : ''; ?>">
-        <a class="nav-link" href="inicio.php">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Inicio</span>
-        </a>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Shortcuts -->
-    <li class="nav-item <?php echo $current_page == 'perfil.php' ? 'active' : ''; ?>">
-        <a class="nav-link" href="perfil.php">
-            <i class="fas fa-user"></i>
-            <span>Mi Perfil</span>
-        </a>
-    </li>
-    <!-- Tarjetas -->
-    <!-- Sección activa: Tarjetas -->
-    <!-- Tarjetas -->
-    <li class="nav-item <?php echo $current_page == 'tarjetas.php' ? 'active' : ''; ?>">
-        <a class="nav-link" href="tarjetas.php">
-            <i class="fas fa-credit-card"></i>
-            <span>Tarjetas</span>
-        </a>
-    </li>
-
-
-    <li class="nav-item <?php echo $current_page == 'configuracion.php' ? 'active' : ''; ?>">
-        <a class="nav-link" href="settings.html">
-            <i class="fas fa-cog"></i>
-            <span>Configuración</span>
-        </a>
-    </li>
-    <li class="nav-item <?php echo $current_page == 'notificaciones.php' ? 'active' : ''; ?>">
-        <a class="nav-link" href="notifications.html">
-            <i class="fas fa-bell"></i>
-            <span>Notificaciones</span>
-        </a>
-    </li>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- New Sections -->
-    <li class="nav-item <?php echo $current_page == 'adeudos.php' ? 'active' : ''; ?>">
-        <a class="nav-link" href="adeudos.html">
-            <i class="fas fa-file-invoice-dollar"></i>
-            <span>Adeudos</span>
-        </a>
-    </li>
-    <li class="nav-item <?php echo $current_page == 'deudas.php' ? 'active' : ''; ?>">
-        <a class="nav-link" href="deudas.html">
-            <i class="fas fa-hand-holding-usd"></i>
-            <span>Deudas</span>
-        </a>
-    </li>
-    <li class="nav-item <?php echo $current_page == 'inversiones.php' ? 'active' : ''; ?>">
-        <a class="nav-link" href="inversiones.html">
-            <i class="fas fa-chart-line"></i>
-            <span>Inversiones</span>
-        </a>
-    </li>
-    
-        <!-- Ingresos -->
-        <li class="nav-item <?php echo $current_page == 'ingresos.php' ? 'active' : ''; ?>">
-        <a class="nav-link" href="ingresos.html">
-            <i class="fas fa-wallet"></i>
-            <span>Ingresos</span>
-        </a>
-    </li>
-
-    <!-- Presupuestos -->
-    <li class="nav-item <?php echo $current_page == 'presupuestos.php' ? 'active' : ''; ?>">
-        <a class="nav-link" href="presupuestos.html">
-            <i class="fas fa-file-invoice"></i>
-            <span>Presupuestos</span>
-        </a>
-    </li>
-
-
-
-    
-
-</ul>
-
-<!-- End of Sidebar -->
+            
+        
+        </ul>
+        
+        <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -235,8 +202,8 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
                     <?php echo htmlspecialchars($_SESSION['nombre']); ?>
                 </span>
 
-                <img src="php/<?php echo htmlspecialchars($_SESSION['foto_perfil']); ?>" alt="Foto de perfil" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
-
+            <img class="img-profile rounded-circle"
+                src="img/undraw_profile.svg">
         </a>
             <!-- Dropdown - User Information -->
     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

@@ -37,6 +37,80 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
     <!--Css propio-->
     <link rel="stylesheet" href="./estilos/prueba3.css">
 
+    <link rel="stylesheet" href="./estilos/perfil.css">
+
+
+    <script>
+        // Cargar datos en el formulario desde las variables de sesión de PHP
+        window.onload = function() {
+            // Las variables de sesión se manejan directamente en el HTML
+        };
+
+        // Habilitar edición del formulario
+        function enableEdit() {
+            const inputs = document.querySelectorAll(".form-control");
+            inputs.forEach(input => input.removeAttribute("disabled"));
+            document.getElementById("save-button").classList.remove("d-none");
+            document.getElementById('upload-button').style.display = 'inline'; // Mostrar el botón "Cambiar Foto"
+        }
+
+        // Guardar cambios del perfil
+        function saveProfile() {
+            const inputs = document.querySelectorAll(".form-control");
+            inputs.forEach(input => input.setAttribute("disabled", "true"));
+            document.getElementById("save-button").classList.add("d-none");
+            document.getElementById('upload-button').style.display = 'none'; // Ocultar el botón "Cambiar Foto"
+            alert("¡Perfil actualizado con éxito!");
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Habilitar edición del formulario
+            document.getElementById('edit-button').addEventListener('click', function() {
+                // Habilitar campos para edición
+                document.getElementById('usuario').disabled = false;
+                // Habilitar otros campos similares
+                document.getElementById('photo-upload').style.display = 'block';
+                document.getElementById('edit-button').classList.add('d-none');
+                document.getElementById('save-button').classList.remove('d-none');
+                document.getElementById('upload-button').style.display = 'inline'; // Mostrar el botón "Cambiar Foto"
+            });
+
+            document.getElementById('upload-button').addEventListener('click', function() {
+              
+            });
+        });
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-image').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function enableEdit() {
+    const editButton = document.getElementById('edit-button');
+    const inputs = document.querySelectorAll('.form-control'); // Todos los campos del formulario
+
+    if (editButton.textContent.trim() === 'Editar') {
+        // Cambiar a "Cancelar" y habilitar los campos
+        editButton.textContent = 'Cancelar';
+        inputs.forEach(input => input.removeAttribute('disabled'));
+        document.getElementById('save-button').classList.remove('d-none'); // Mostrar el botón "Guardar Cambios"
+    } else {
+        // Cambiar a "Editar" y deshabilitar los campos
+        editButton.textContent = 'Editar';
+        inputs.forEach(input => input.setAttribute('disabled', 'true'));
+        document.getElementById('save-button').classList.add('d-none'); // Ocultar el botón "Guardar Cambios"
+    }
+}
+
+    </script>
+
+
 </head>
 
 <body id="page-top">
@@ -274,7 +348,54 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
 
 
 
+                    <!-- Perfil Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Mi Perfil</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card p-4 shadow-sm">
+                                <form id="profile-form" method="POST" action="./php/modificarPerfil.php" enctype="multipart/form-data">
+                <section class="profile-photo">
+                    <div class="photo-container">
+                        <img id="profile-image" src="php/<?php echo $_SESSION['foto_perfil']; ?>" alt="Foto de perfil" class="rounded-circle" style="object-fit: cover;">
+                        <br>
+                        <input type="file" accept=".PNG, .JPG, .JPEG" name="foto_perfil" id="photo-upload" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                        <button type="button" id="upload-button" style="display: none;" onclick="document.getElementById('photo-upload').click()">Cambiar Foto</button>
+                    </div>
+                </section>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nombre</label>
+                    <input type="text" name="nombre" id="name" class="form-control" value="<?php echo $_SESSION['nombre']; ?>" disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="apellido_paterno" class="form-label">Apellido Paterno</label>
+                    <input type="text" name="apellido_paterno" id="apellido_paterno" class="form-control" value="<?php echo $_SESSION['apellido_paterno']; ?>" disabled>
+                </div>                            
+                <div class="mb-3">
+                    <label for="apellido_materno" class="form-label">Apellido Materno</label>
+                    <input type="text" name="apellido_materno" id="apellido_materno" class="form-control" value="<?php echo $_SESSION['apellido_materno']; ?>" disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo Electrónico</label>
+                    <input type="email" name="correo" id="email" class="form-control" value="<?php echo $_SESSION['correo']; ?>" disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Teléfono</label>
+                    <input type="text" name="telefono" id="phone" class="form-control" value="<?php echo $_SESSION['numero_telefono']; ?>" disabled>
+                </div>  
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary" id="edit-button" onclick="enableEdit()" style="color: black;">Editar</button>
+                    <button type="submit" class="btn btn-success d-none" id="save-button">Guardar Cambios</button>
+                </div>
+            </form>
                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
 
