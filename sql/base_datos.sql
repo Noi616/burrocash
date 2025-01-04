@@ -44,7 +44,7 @@ CREATE TABLE tarjeta (
     limite INT NOT NULL,
     nombre_titular VARCHAR(100) NOT NULL,
     id_usuario INT NOT NULL, -- Nueva columna para asociar la tarjeta con el usuario
-   FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)  -- Llave foránea para garantizar la relación
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)  -- Llave foránea para garantizar la relación
 );
 
 CREATE TABLE presupuestos (
@@ -54,8 +54,10 @@ CREATE TABLE presupuestos (
     monto INT, 
     fecha_inicio DATE NOT NULL, 
     fecha_fin DATE NOT NULL, 
-    categoria_id INT, 
-    FOREIGN KEY (categoria_id) REFERENCES categorias(id_categoria)
+    id_categoria INT, 
+    id_usuario INT NOT NULL,
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria),
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
 CREATE TABLE inversiones (
@@ -73,8 +75,8 @@ CREATE TABLE fondos (
     nombre VARCHAR(100) NOT NULL, 
     descripcion VARCHAR(100) NOT NULL, 
     monto_actual DECIMAL(10, 2) NOT NULL, 
-    categoria_id INT, 
-    FOREIGN KEY (categoria_id) REFERENCES categorias(id_categoria)
+    id_categoria INT, 
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
 );
 
 CREATE TABLE deudas (
@@ -84,7 +86,9 @@ CREATE TABLE deudas (
     monto_total DECIMAL(10, 2) NOT NULL,
     fecha_inicio DATE NOT NULL,
     fecha_vencimiento DATE NOT NULL,
-    tasa_interes DECIMAL(5, 2)  -- en porcentaje
+    tasa_interes DECIMAL(5, 2),  -- en porcentaje
+    id_usuario INT NOT NULL, 
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
 CREATE TABLE categorias (
@@ -99,8 +103,10 @@ CREATE TABLE transacciones (
     fecha DATE NOT NULL,
     tipo VARCHAR(50) NOT NULL,  -- ingreso o egreso
     descripcion VARCHAR(100) NOT NULL,
-    categoria_id INT,
-    FOREIGN KEY (categoria_id) REFERENCES categorias(id_categoria)
+    id_categoria INT,
+    id_usuario INT NOT NULL, 
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
 CREATE TABLE notificaciones (
