@@ -474,7 +474,9 @@ $result = $conn->query($query);
 if ($result && $result->num_rows > 0) {
     // Generar filas dinámicas
     while ($row = $result->fetch_assoc()) {
-        $logoPath = ($row['tipo'] === 'Visa') ? 'path/to/visa.png' : 'path/to/mastercard.png';
+        $logoPath = ($row['tipo'] === 'Visa') 
+        ? 'https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png' 
+        : 'https://upload.wikimedia.org/wikipedia/commons/b/b7/MasterCard_Logo.svg';
         echo "<tr>";
         echo "<td class='text-center'><img src='$logoPath' alt='{$row['tipo']}' style='width: 40px;'></td>";
         echo "<td>**** **** **** " . substr($row['numero'], -4) . "</td>";
