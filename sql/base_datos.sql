@@ -38,11 +38,13 @@ CREATE TABLE ingreso (
 
 CREATE TABLE tarjeta (
     id_tarjeta INT AUTO_INCREMENT PRIMARY KEY,
-    numero INT NOT NULL,
+    numero BIGINT NOT NULL, -- Cambiado a BIGINT para soportar números más largos
     tipo VARCHAR(50) NOT NULL,
     banco VARCHAR(50) NOT NULL,
-    limite INT NOT NULL, 
-    nombre_titular VARCHAR(100) NOT NULL
+    limite INT NOT NULL,
+    nombre_titular VARCHAR(100) NOT NULL,
+    id_usuario INT NOT NULL, -- Nueva columna para asociar la tarjeta con el usuario
+   FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)  -- Llave foránea para garantizar la relación
 );
 
 CREATE TABLE presupuestos (

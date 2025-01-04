@@ -45,29 +45,32 @@ switch ($method) {
     
 
         case 'POST':
+            session_start(); // Asegúrate de que la sesión esté activa
             // Registrar una nueva tarjeta
-            if (isset($_POST['numero'], $_POST['tipo'], $_POST['banco'], $_POST['limite'], $_POST['nombre_titular'])) {
+            if (isset($_POST['numero'], $_POST['tipo'], $_POST['banco'], $_POST['limite'], $_POST['nombre_titular']) && isset($_SESSION['id_usuario'])) {
                 $numero = $_POST['numero'];
                 $tipo = $_POST['tipo'];
                 $banco = $_POST['banco'];
                 $limite = $_POST['limite'];
                 $nombre_titular = $_POST['nombre_titular'];
+                $id_usuario = $_SESSION['id_usuario']; // ID del usuario actual desde la sesión
         
-                $query = "INSERT INTO tarjeta (numero, tipo, banco, limite, nombre_titular) VALUES (?, ?, ?, ?, ?)";
+                $query = "INSERT INTO tarjeta (numero, tipo, banco, limite, nombre_titular, id_usuario) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($query);
-                $stmt->bind_param("sssis", $numero, $tipo, $banco, $limite, $nombre_titular);
+                $stmt->bind_param("sssisi", $numero, $tipo, $banco, $limite, $nombre_titular, $id_usuario);
         
                 if ($stmt->execute()) {
-                    // Mostrar mensaje y redirigir
+                    // Mostrar mensaje de éxito y redirigir
                     header("Location: ../tarjetas.php?message=Tarjeta agregada exitosamente");
                     exit();
                 } else {
-                    echo json_encode(["error" => "Error al registrar la tarjeta."]);
+                    echo json_encode(["error" => "Error al registrar la tarjeta: " . $stmt->error]);
                 }
             } else {
-                echo json_encode(["error" => "Faltan campos obligatorios."]);
+                echo json_encode(["error" => "Faltan campos obligatorios o usuario no autenticado."]);
             }
             break;
+        
         
 
     case 'PUT':
