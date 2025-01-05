@@ -170,6 +170,7 @@
         <div class="form-container-subadeudo">
             <h2>Registrar Subadeudo</h2>
             <form method="POST" action="reg-subadeudo.php"> 
+                <input type="hidden" name="id_adeudo" value="<php echo $id_adeudo; ?>">
                 <div class="form-group"> 
                     <label for="id_categoria">Categoría de origen:
                     </label> <select id="id_categoria" name="id_categoria" required> 
@@ -254,6 +255,6 @@
             document.querySelector(selector).style.display = 'block';
         }
     </script>
-    
+
 </body>
 </html>
