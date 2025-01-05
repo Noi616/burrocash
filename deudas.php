@@ -5,12 +5,28 @@ if (!isset($_SESSION['nombre'])) {
     header("Location: login.html");
     exit;
 }
+
+// Configurar la conexión a la base de datos
+$servername = "localhost"; // Cambiar si es necesario
+$username = "root";        // Usuario de la base de datos
+$password = "";            // Contraseña de la base de datos
+$dbname = "burrocash"; // Nombre de la base de datos
+
+// Crear conexión
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar conexión
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
 ?>
+
 
 
 <?php
 $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo actual
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -118,7 +134,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
             </a>
         </li>
         <li class="nav-item <?php echo $current_page == 'inversiones.php' ? 'active' : ''; ?>">
-            <a class="nav-link" href="inversiones.html">
+            <a class="nav-link" href="inversiones.php">
                 <i class="fas fa-chart-line"></i>
                 <span>Inversiones</span>
             </a>
@@ -126,7 +142,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
         
             <!-- Ingresos -->
             <li class="nav-item <?php echo $current_page == 'ingresos.php' ? 'active' : ''; ?>">
-            <a class="nav-link" href="ingresos.html">
+            <a class="nav-link" href="ingresos.php">
                 <i class="fas fa-wallet"></i>
                 <span>Ingresos</span>
             </a>
@@ -134,7 +150,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
 
         <!-- Presupuestos -->
         <li class="nav-item <?php echo $current_page == 'presupuestos.php' ? 'active' : ''; ?>">
-            <a class="nav-link" href="presupuestos.html">
+            <a class="nav-link" href="presupuestos.php">
                 <i class="fas fa-file-invoice"></i>
                 <span>Presupuestos</span>
             </a>
@@ -276,9 +292,26 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
 
                
                 <div class="container mt-5">
-        <h1 class="text-center mb-4">Registro de Deudas</h1>
+
+                <?php if (isset($_GET['mensaje'])): ?>
+                <div class="alert alert-success">
+                    <?php echo htmlspecialchars($_GET['mensaje']); ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (isset($_GET['error'])): ?>
+                <div class="alert alert-danger">
+                    <?php echo htmlspecialchars($_GET['error']); ?>
+                </div>
+            <?php endif; ?>
+
+
+
+            <h1 class="text-center mb-4">
+                Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?>, al apartado de Deudas
+            </h1>
         <div class="mb-3 text-right">
-            <button class="btn" id="addCardButton" data-toggle="modal" data-target="#registerCardModal" style="background-color: #2D5C47; color: white;">
+            <button class="btn" id="addCardButton" data-toggle="modal" data-target="#registerDebtModal" style="background-color: #2D5C47; color: white;">
                 <i class="fas fa-plus-circle"></i> Registrar Nuevo Deuda
             </button>
         </div>
@@ -288,38 +321,177 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
                     <th scope="col">#</th>
                     <th scope="col">Entidad Acreedora</th>
                     <th scope="col">Monto</th>
-                    <th scope="col">Fecha de Pago</th>
+                    <th scope="col">Fecha de Vencimiento</th>
+                    <th scope="col">Tasa de Interés</th>
                     <th scope="col">Descripción</th>
+                    <th scope="col">Estado</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
+            
+
+
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Banco Ejemplo</td>
-                    <td>$10,000.00</td>
-                    <td>2025-01-15</td>
-                    <td>Préstamo personal</td>
-                    <td>
-                        <button class="btn btn-success btn-sm">Editar</button>
-                        <button class="btn btn-danger btn-sm">Eliminar</button>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Tienda XYZ</td>
-                    <td>$5,000.00</td>
-                    <td>2025-02-10</td>
-                    <td>Compra a crédito</td>
-                    <td>
-                        <button class="btn btn-success btn-sm">Editar</button>
-                        <button class="btn btn-danger btn-sm">Eliminar</button>
-                    </td>
-                </tr>
-                <!-- Más filas pueden añadirse aquí -->
-            </tbody>
+    <?php
+    // Consulta para obtener las deudas del usuario actual
+    $query = "SELECT id_deuda, acreedor, monto_total, fecha_vencimiento, tasa_interes, descripcion,estado FROM deudas WHERE id_usuario = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('i', $_SESSION['id_usuario']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result && $result->num_rows > 0) {
+        // Generar filas dinámicas
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<th scope='row'>{$row['id_deuda']}</th>";
+            echo "<td>" . htmlspecialchars($row['acreedor']) . "</td>";
+            echo "<td>$" . number_format($row['monto_total'], 2) . "</td>";
+            echo "<td>" . htmlspecialchars($row['fecha_vencimiento']) . "</td>";
+            echo "<td>" . number_format($row['tasa_interes'], 2) . "%</td>";
+            echo "<td>" . htmlspecialchars($row['descripcion']) . "</td>";
+
+                // Botón de estado (Pagar o Pagado)
+    if ($row['estado'] === 'Pagado') {
+        echo "<td><button class='btn btn-success btn-sm' disabled>Pagado</button></td>";
+    } else {
+        echo "<td><button class='btn btn-primary btn-sm pay-btn' data-id='{$row['id_deuda']}'>Pagar</button></td>";
+    }
+
+            // Botones de acciones (Editar y Eliminar)
+            echo "<td class='text-center'>
+                    <button class='btn btn-success btn-sm edit-btn' data-id='{$row['id_deuda']}'><i class='fas fa-edit'></i> Editar</button>
+                    <button class='btn btn-danger btn-sm delete-btn' data-id='{$row['id_deuda']}'><i class='fas fa-trash'></i> Eliminar</button>
+                  </td>";
+            echo "</tr>";
+        }
+    } else {
+        // Mensaje si no hay deudas
+        echo "<tr><td colspan='8' class='text-center'>No hay deudas registradas.</td></tr>";
+    }
+    ?>
+</tbody>
+
+
+
+
         </table>
+
+        <!-- Modal para registrar una nueva deuda -->
+<div class="modal fade" id="registerDebtModal" tabindex="-1" role="dialog" aria-labelledby="registerDebtModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerDebtModalLabel">Registrar Nueva Deuda</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="registerDebtForm" method="POST" action="./php/registrar_deuda.php">
+                    <div class="form-group">
+                        <label for="creditorName">Acreedor</label>
+                        <input type="text" class="form-control" id="creditorName" name="acreedor" placeholder="Nombre del acreedor" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Monto</label>
+                        <input type="number" class="form-control" id="amount" name="monto_total" placeholder="Monto en pesos" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dueDate">Fecha de Vencimiento</label>
+                        <input type="date" class="form-control" id="dueDate" name="fecha_vencimiento" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="interestRate">Tasa de Interés (%)</label>
+                        <input type="number" class="form-control" id="interestRate" name="tasa_interes" placeholder="Ejemplo: 5.00" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Descripción</label>
+                        <textarea class="form-control" id="description" name="descripcion" placeholder="Detalles sobre la deuda" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+        </div>
     </div>
+</div>
+
+
+<!-- Modal para editar deuda -->
+<!-- Modal para editar deuda -->
+<div class="modal fade" id="editDebtModal" tabindex="-1" role="dialog" aria-labelledby="editDebtModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editDebtModalLabel">Editar Deuda</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editDebtForm">
+                    <input type="hidden" id="editDebtId" name="id_deuda">
+                    <div class="form-group">
+                        <label for="editCreditorName">Acreedor</label>
+                        <input type="text" class="form-control" id="editCreditorName" name="acreedor" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAmount">Monto</label>
+                        <input type="number" class="form-control" id="editAmount" name="monto_total" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDueDate">Fecha de Vencimiento</label>
+                        <input type="date" class="form-control" id="editDueDate" name="fecha_vencimiento" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editInterestRate">Tasa de Interés (%)</label>
+                        <input type="number" class="form-control" id="editInterestRate" name="tasa_interes" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDescription">Descripción</label>
+                        <textarea class="form-control" id="editDescription" name="descripcion"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal para realizar el pago -->
+<div class="modal fade" id="payDebtModal" tabindex="-1" role="dialog" aria-labelledby="payDebtModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="payDebtModalLabel">Realizar Pago</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="payDebtForm">
+                    <input type="hidden" id="payDebtId">
+                    <div class="form-group">
+                        <label for="selectCard">Selecciona una Tarjeta</label>
+                        <select class="form-control" id="selectCard" required>
+                            <option value="">Seleccionar...</option>
+                            <!-- Las tarjetas se cargarán dinámicamente -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvc">CVC</label>
+                        <input type="text" class="form-control" id="cvc" placeholder="Código de seguridad" maxlength="3" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Pagar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 
 
@@ -384,6 +556,198 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
 <!-- Page level custom scripts -->
 <script src="js/demo/chart-area-demo.js"></script>
 <script src="js/demo/chart-pie-demo.js"></script>
+
+<script>
+    // Seleccionar el mensaje de éxito o error
+    const alertBox = document.querySelector('.alert');
+
+    if (alertBox) {
+        // Ocultar el mensaje después de 5 segundos
+        setTimeout(() => {
+            alertBox.style.display = 'none';
+        }, 5000); // 5000 milisegundos = 5 segundos
+    }
+</script>
+
+
+<!-- Editar adeudo-->
+<script >
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const editButtons = document.querySelectorAll(".edit-btn");
+    const editForm = document.getElementById("editDebtForm");
+
+    // Manejar clic en los botones "Editar"
+    editButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const idDeuda = button.getAttribute("data-id");
+
+            // Realizar la solicitud a get_deuda.php
+            fetch(`./php/get_deuda.php?id_deuda=${idDeuda}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        // Cargar los datos en el formulario del modal
+                        document.getElementById("editDebtId").value = data.id_deuda;
+                        document.getElementById("editCreditorName").value = data.acreedor;
+                        document.getElementById("editAmount").value = data.monto_total;
+                        document.getElementById("editDueDate").value = data.fecha_vencimiento;
+                        document.getElementById("editInterestRate").value = data.tasa_interes;
+                        document.getElementById("editDescription").value = data.descripcion;
+
+                        // Mostrar el modal
+                        $('#editDebtModal').modal('show');
+                    }
+                })
+                .catch(error => console.error("Error al cargar los datos:", error));
+        });
+    });
+
+    // Manejar el envío del formulario de edición
+    editForm.addEventListener("submit", (e) => {
+        e.preventDefault(); // Prevenir la recarga de la página
+
+        // Obtener los datos del formulario
+        const idDeuda = document.getElementById("editDebtId").value;
+        const acreedor = document.getElementById("editCreditorName").value;
+        const montoTotal = document.getElementById("editAmount").value;
+        const fechaVencimiento = document.getElementById("editDueDate").value;
+        const tasaInteres = document.getElementById("editInterestRate").value;
+        const descripcion = document.getElementById("editDescription").value;
+
+        // Enviar los datos al servidor
+        fetch("./php/editar_deuda.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id_deuda: idDeuda,
+                acreedor: acreedor,
+                monto_total: montoTotal,
+                fecha_vencimiento: fechaVencimiento,
+                tasa_interes: tasaInteres,
+                descripcion: descripcion
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    location.reload(); // Recargar la página para reflejar los cambios
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error("Error al guardar los cambios:", error));
+    });
+});
+
+
+
+</script>
+<!-- Eliminar adeudo-->
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+    const deleteButtons = document.querySelectorAll(".delete-btn");
+
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const idDeuda = button.getAttribute("data-id");
+
+            if (confirm("¿Estás seguro de que deseas eliminar esta deuda?")) {
+                fetch("./php/eliminar_deuda.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ id_deuda: idDeuda })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert(data.message);
+                            location.reload(); // Recargar la página
+                        } else {
+                            alert(data.message);
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+            }
+        });
+    });
+});
+
+</script>
+
+<!-- Manejar metodo de pago-->
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const payButtons = document.querySelectorAll(".pay-btn");
+    const payForm = document.getElementById("payDebtForm");
+    const selectCard = document.getElementById("selectCard");
+
+    // Manejar clic en los botones "Pagar"
+    payButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const idDeuda = button.getAttribute("data-id");
+            document.getElementById("payDebtId").value = idDeuda;
+
+            // Cargar las tarjetas en el selector
+            fetch("./php/get_tarjetas.php")
+                .then(response => response.json())
+                .then(data => {
+                    selectCard.innerHTML = '<option value="">Seleccionar...</option>'; // Limpiar el select
+                    data.forEach(card => {
+                        selectCard.innerHTML += `<option value="${card.id_tarjeta}">${card.tipo} - **** ${card.numero.slice(-4)} (${card.banco})</option>`;
+                    });
+
+                    // Mostrar el modal
+                    $('#payDebtModal').modal('show');
+                })
+                .catch(error => console.error("Error al cargar las tarjetas:", error));
+        });
+    });
+
+    // Manejar el envío del formulario de pago
+    payForm.addEventListener("submit", (e) => {
+        e.preventDefault(); // Prevenir la recarga de la página
+
+        const idDeuda = document.getElementById("payDebtId").value;
+        const idTarjeta = selectCard.value;
+        const cvc = document.getElementById("cvc").value;
+
+        // Enviar los datos al servidor
+        fetch("./php/pagar_deuda.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id_deuda: idDeuda,
+                id_tarjeta: idTarjeta,
+                cvc: cvc // Solo visual, no se validará
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    location.reload(); // Recargar la página para reflejar los cambios
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error("Error al procesar el pago:", error));
+    });
+});
+
+</script>
 
 
 </body>
