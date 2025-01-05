@@ -8,6 +8,24 @@ if (!isset($_SESSION['nombre'])) {
 ?>
 
 <?php
+// Crear un objeto IntlDateFormatter para formatear la fecha en español
+$formatter = new IntlDateFormatter(
+    'es_ES', // Idioma y localización (ajusta según tu idioma)
+    IntlDateFormatter::FULL, // Formato de la fecha
+    IntlDateFormatter::NONE, // Sin formato para la hora
+    'Europe/Madrid', // Zona horaria (ajusta según tu ubicación)
+    IntlDateFormatter::GREGORIAN
+);
+
+// Obtener la fecha actual
+$fecha_actual = new DateTime();
+?>
+
+
+
+
+
+<?php
 $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo actual
 ?>
 
@@ -134,7 +152,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
 
     <!-- Presupuestos -->
     <li class="nav-item <?php echo $current_page == 'presupuestos.php' ? 'active' : ''; ?>">
-        <a class="nav-link" href="presupuestos.html">
+        <a class="nav-link" href="presupuestos.php">
             <i class="fas fa-file-invoice"></i>
             <span>Presupuestos</span>
         </a>
@@ -272,7 +290,22 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
 
 
 
-                    
+                <div class="container-fluid">
+
+<!-- Welcome Section -->
+<div class="text-center my-5" style="color: #2c3e50; background-color: #eafaf1; padding: 20px; border-radius: 10px;">
+    <h1 class="display-4">¡Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?>!</h1>
+    <p class="lead">Estamos felices de verte de nuevo.</p>
+</div>
+
+<!-- Date and Time Section -->
+<!-- Date and Time Section -->
+<div class="text-center my-5" style="color: #2c3e50;">
+    <h3 id="date-display" class="mb-3">
+        <?php echo $formatter->format($fecha_actual); ?>
+    </h3>
+    <h1 id="time-display" class="display-1 font-weight-bold"></h1>
+</div>
 
 
 
@@ -338,6 +371,19 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
 <script src="js/demo/chart-area-demo.js"></script>
 <script src="js/demo/chart-pie-demo.js"></script>
 
+<!-- JavaScript for Dynamic Time -->
+<script>
+                        function updateTime() {
+                            const timeDisplay = document.getElementById('time-display');
+                            const now = new Date();
+                            const hours = String(now.getHours()).padStart(2, '0');
+                            const minutes = String(now.getMinutes()).padStart(2, '0');
+                            const seconds = String(now.getSeconds()).padStart(2, '0');
+                            timeDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+                        }
+                        setInterval(updateTime, 1000); // Update every second
+                        updateTime(); // Initial call to display time immediately
+                    </script>
 
 </body>
 
