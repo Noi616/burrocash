@@ -134,7 +134,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
             </a>
         </li>
         <li class="nav-item <?php echo $current_page == 'inversiones.php' ? 'active' : ''; ?>">
-            <a class="nav-link" href="inversiones.html">
+            <a class="nav-link" href="inversiones.php">
                 <i class="fas fa-chart-line"></i>
                 <span>Inversiones</span>
             </a>
@@ -142,7 +142,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
         
             <!-- Ingresos -->
             <li class="nav-item <?php echo $current_page == 'ingresos.php' ? 'active' : ''; ?>">
-            <a class="nav-link" href="ingresos.html">
+            <a class="nav-link" href="ingresos.php">
                 <i class="fas fa-wallet"></i>
                 <span>Ingresos</span>
             </a>
@@ -150,7 +150,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
 
         <!-- Presupuestos -->
         <li class="nav-item <?php echo $current_page == 'presupuestos.php' ? 'active' : ''; ?>">
-            <a class="nav-link" href="presupuestos.html">
+            <a class="nav-link" href="presupuestos.php">
                 <i class="fas fa-file-invoice"></i>
                 <span>Presupuestos</span>
             </a>
@@ -307,7 +307,9 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
 
 
 
-        <h1 class="text-center mb-4">Registro de Deudas</h1>
+            <h1 class="text-center mb-4">
+                Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?>, al apartado de Deudas
+            </h1>
         <div class="mb-3 text-right">
             <button class="btn" id="addCardButton" data-toggle="modal" data-target="#registerDebtModal" style="background-color: #2D5C47; color: white;">
                 <i class="fas fa-plus-circle"></i> Registrar Nuevo Deuda
