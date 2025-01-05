@@ -26,6 +26,8 @@ CREATE TABLE registrarsubadeudo (
     descripcion VARCHAR(100) NOT NULL,
     monto INT,
     fecha DATE, 
+    id_categoria INT,
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria), 
     FOREIGN KEY (id_adeudo) REFERENCES registraradeudo(id_adeudo) -- Llave foránea
 );
 

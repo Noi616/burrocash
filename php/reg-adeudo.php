@@ -6,8 +6,6 @@ $conexion = mysqli_connect('localhost', 'root', '', 'burrocash');
 // Verificar conexión
 if (!$conexion) {
     die('Error al conectar con la base de datos: ' . mysqli_connect_error());
-} else {
-    echo "Conexión exitosa.";
 }
 
 // Recuperar valores del formulario para registrar adeudo
@@ -17,19 +15,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $monto = $_POST['monto'] ?? 0;
     $fecha = $_POST['fecha'] ?? '';
     $categoria = $_POST['categoria'] ?? '';
-
-    // Validar si los campos están completos
-    if (empty($acreedor) || empty($descripcion) || empty($monto) || empty($fecha) || empty($categoria)) {
-        echo 'Por favor completa todos los campos.';
-        exit;
-    } else {
-        echo "Campos recibidos correctamente.";
-    }
+    $estado = $_POST['estado'] ?? '';
 
     // Preparar consulta para evitar inyección SQL
-    $consulta = "INSERT INTO registraradeudo (acreedor, descripcion, monto, fecha, categoria) VALUES (?, ?, ?, ?, ?)";
+    $consulta = "INSERT INTO registraradeudo (acreedor, descripcion, monto, fecha, categoria, estado) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($conexion, $consulta);
-    mysqli_stmt_bind_param($stmt, 'ssdss', $acreedor, $descripcion, $monto, $fecha, $categoria);
+    mysqli_stmt_bind_param($stmt, 'ssdsss', $acreedor, $descripcion, $monto, $fecha, $categoria, $estado);
 
     if (mysqli_stmt_execute($stmt)) {
         echo "Nuevo adeudo registrado correctamente";
@@ -40,4 +31,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Cerrar conexión
 mysqli_close($conexion);
+
 ?>

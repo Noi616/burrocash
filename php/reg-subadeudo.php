@@ -1,38 +1,37 @@
 <?php
-session_start(); // Iniciar sesión
-$conexion = mysqli_connect('localhost', 'root', '', 'burrocash');
+// Mostrar errores para depuración
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// Verificar conexión
-if (!$conexion) {
-    die('Error al conectar con la base de datos: ' . mysqli_connect_error());
+// Incluir el archivo de conexión
+include 'C:/wamp64/www/burrocash/php/subadeudo_conexion.php';
+
+// Verificar si la conexión se estableció
+if ($conexion_subadeudo->connect_error) {
+    die("Error: No se estableció la conexión con la base de datos.");
 }
 
-// Recuperar valores del formulario para registrar subadeudo
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_adeudo = $_POST['id_adeudo'] ?? 0;
-    $acreedor = $_POST['acreedor'] ?? '';
-    $descripcion = $_POST['descripcion'] ?? '';
-    $monto = $_POST['monto'] ?? 0;
-    $fecha = $_POST['fecha'] ?? '';
+// Capturar los valores del formulario
+$id_categoria = isset($_POST['id_categoria']) ? intval($_POST['id_categoria']) : null;
+$acreedor = isset($_POST['acreedor']) ? $conexion_subadeudo->real_escape_string($_POST['acreedor']) : null;
+$descripcion = isset($_POST['descripcion']) ? $conexion_subadeudo->real_escape_string($_POST['descripcion']) : null;
+$monto = isset($_POST['monto']) ? floatval($_POST['monto']) : null;
+$fecha = isset($_POST['fecha']) ? $conexion_subadeudo->real_escape_string($_POST['fecha']) : null;
 
-    // Validar si los campos están completos
-    if (empty($id_adeudo) || empty($acreedor) || empty($descripcion) || empty($monto) || empty($fecha)) {
-        echo 'Por favor completa todos los campos.';
-        exit;
-    }
-
-    // Preparar consulta para evitar inyección SQL
-    $consulta = "INSERT INTO registrarsubadeudo (id_adeudo, acreedor, descripcion, monto, fecha) VALUES (?, ?, ?, ?, ?)";
-    $stmt = mysqli_prepare($conexion, $consulta);
-    mysqli_stmt_bind_param($stmt, 'issds', $id_adeudo, $acreedor, $descripcion, $monto, $fecha);
-
-    if (mysqli_stmt_execute($stmt)) {
-        echo "Nuevo subadeudo registrado correctamente";
-    } else {
-        echo "Error: " . mysqli_error($conexion);
-    }
+// Verificar que los valores no estén vacíos
+if (empty($id_categoria) || empty($acreedor) || empty($descripcion) || empty($monto) || empty($fecha)) {
+    die('Error: Todos los campos del formulario son obligatorios.');
 }
 
-// Cerrar conexión
-mysqli_close($conexion);
+// Ejecutar la consulta SQL para insertar datos en la tabla correcta
+$query = "INSERT INTO registrarsubadeudo (id_adeudo, id_categoria, acreedor, descripcion, monto, fecha) VALUES (1, ?, ?, ?, ?, ?)";
+$stmt = $conexion_subadeudo->prepare($query);
+$stmt->bind_param('issss', $id_categoria, $acreedor, $descripcion, $monto, $fecha);
+
+if ($stmt->execute()) {
+    echo 'Registro insertado correctamente.';
+} else {
+    die('Error en la consulta: ' . $stmt->error);
+}
 ?>
