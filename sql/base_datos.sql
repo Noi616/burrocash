@@ -83,14 +83,15 @@ CREATE TABLE fondos (
 CREATE TABLE deudas (
     id_deuda INT AUTO_INCREMENT PRIMARY KEY,
     acreedor VARCHAR(100) NOT NULL,
-    descripcion VARCHAR(100),  -- Falta la coma
+    descripcion VARCHAR(100),
     monto_total DECIMAL(10, 2) NOT NULL,
-    fecha_inicio DATE NOT NULL,
     fecha_vencimiento DATE NOT NULL,
-    tasa_interes DECIMAL(5, 2),  -- en porcentaje
-    id_usuario INT NOT NULL, 
+    tasa_interes DECIMAL(5, 2),
+    id_usuario INT NOT NULL,
+    estado ENUM('Pendiente', 'Pagado') DEFAULT 'Pendiente', -- Nueva columna estado
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
+
 
 CREATE TABLE categorias (
     id_categoria INT AUTO_INCREMENT PRIMARY KEY,
