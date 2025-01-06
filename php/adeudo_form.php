@@ -109,14 +109,13 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <h1>Gestión de Adeudos</h1>
             <div class="actions-btn">
-                <button class="filter-btn">Filtrar Categoría</button>
                 <button onclick="mostrarFormulario('.form-container')">Registrar Nuevo Adeudo</button>
-                <button onclick="mostrarFormulario('.form-container-subadeudo')">Registrar Subadeudo</button>
             </div>
         </div>
 
@@ -169,36 +168,38 @@
         <!-- Formulario de registrar subadeudo -->
         <div class="form-container-subadeudo">
             <h2>Registrar Subadeudo</h2>
-            <form method="POST" action="reg-subadeudo.php"> 
-                <input type="hidden" name="id_adeudo" value="<php echo $id_adeudo; ?>">
-                <div class="form-group"> 
-                    <label for="id_categoria">Categoría de origen:
-                    </label> <select id="id_categoria" name="id_categoria" required> 
-                        <option value="" disabled selected>Seleccione la categoría de origen</option> 
-                        <option value="1">Personal</option> 
-                        <option value="2">Hogar</option> 
-                        <option value="3">Vehicular</option> 
-                        <option value="4">Educación</option> 
-                        <option value="5">Salud</option> 
-                    </select> 
-                </div> 
-                <div class="form-group"> 
-                        <label for="acreedor">Acreedor:</label> 
-                        <input type="text" name="acreedor" id="acreedor" required> 
-                </div> 
-                    <div class="form-group"> 
-                        <label for="descripcion">Descripción:</label> 
-                        <input type="text" name="descripcion" id="descripcion" required> 
-                    </div> 
-                    <div class="form-group"> 
-                        <label for="monto">Monto:</label> 
-                        <input type="number" name="monto" id="monto" required> 
-                    </div> 
-                    <div class="form-group"> <label for="fecha">Fecha:</label> 
-                        <input type="date" name="fecha" id="fecha" required> 
-                    </div> 
-                        <button type="submit">Registrar Subadeudo</button> 
-                    </form>
+            <form method="POST" action="reg-subadeudo.php">
+                <input type="hidden" name="id_adeudo" id="id_adeudo">
+                <div class="form-group">
+                    <label for="id_categoria">Categoría de origen:</label>
+                    <select id="id_categoria" name="id_categoria" required>
+                        <option value="" disabled selected>Seleccione la categoría de origen</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Hogar">Hogar</option>
+                        <option value="Vehicular">Vehicular</option>
+                        <option value="Educacion">Educación</option>
+                        <option value="Salud">Salud</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="acreedor">Acreedor:</label>
+                    <input type="text" name="acreedor" id="acreedor" required>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <input type="text" name="descripcion" id="descripcion" required>
+                </div>
+                <div class="form-group">
+                    <label for="monto">Monto:</label>
+                    <input type="number" name="monto" id="monto" required>
+                </div>
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" name="fecha" id="fecha" required>
+                </div>
+                <button type="submit" class="save-btn">Guardar</button>
+                <button type="reset" class="cancel-btn">Cancelar</button>
+            </form>
         </div>
 
         <!-- Lista de adeudos existente -->
@@ -220,41 +221,130 @@
                     <?php
                         // Conectar a la base de datos y obtener los registros
                         $conexion = mysqli_connect('localhost', 'root', '', 'burrocash');
-                        if ($conexion->connect_error) {
-                            die("Conexión fallida: " . $conexion->connect_error);
+                        if (!$conexion) {
+                            die("Conexión fallida: " . mysqli_connect_error());
                         }
                         $result = $conexion->query("SELECT * FROM registraradeudo");
                         if ($result->num_rows > 0) {
                             while($row = $result->fetch_assoc()) {
                                 echo "<tr>
-                                        <td>" . $row['acreedor'] . "</td>
-                                        <td>" . $row['monto'] . "</td>
-                                        <td>" . $row['fecha'] . "</td>
-                                        <td>" . $row['categoria'] . "</td>
-                                        <td>" . $row['estado'] . "</td>
-                                        <td><button onclick=\"verSubcategorias('" . $row['categoria'] . "')\">Ver Subcategorías</button></td>
+                                        <td>" . htmlspecialchars($row['acreedor'] ?? '') . "</td>
+                                        <td>" . htmlspecialchars($row['monto'] ?? '') . "</td>
+                                        <td>" . htmlspecialchars($row['fecha'] ?? '') . "</td>
+                                        <td>" . htmlspecialchars($row['categoria'] ?? '') . "</td>
+                                        <td>" . htmlspecialchars($row['estado'] ?? '') . "</td>
+                                        <td>
+                                            <button onclick=\"registrarSubadeudo(" . $row['id_adeudo'] . ")\">Registrar Subadeudo</button>
+                                            <button onclick=\"verSubadeudos(" . $row['id_adeudo'] . ")\">Ver Subadeudos</button>
+                                        </td>
+                                    </tr>
+                                    <tr id=\"subadeudos-" . $row['id_adeudo'] . "\" style=\"display:none;\">
+                                        <td colspan='7'>
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Descripción</th>
+                                                        <th>Monto</th>
+                                                        <th>Fecha</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id=\"subadeudos-body-" . $row['id_adeudo'] . "\">
+                                                    <!-- Los subadeudos se insertarán aquí -->
+                                                </tbody>
+                                            </table>
+                                        </td>
                                     </tr>";
                             }
                         } else {
-                            echo "<tr><td colspan='6'>No hay adeudos registrados.</td></tr>";
+                            echo "<tr><td colspan='7'>No hay adeudos registrados.</td></tr>";
                         }
                         $conexion->close();
                     ?>
                 </tbody>
             </table>
         </div>
-
-        <form method="POST" action="subadeudo_listar.php"> <button type="submit">Ver Subadeudos</button> 
-    </form>
     </div>
-
 
     <script>
         function mostrarFormulario(selector) {
             document.querySelectorAll('.form-container, .form-container-subadeudo').forEach(form => form.style.display = 'none');
             document.querySelector(selector).style.display = 'block';
         }
+
+        function registrarSubadeudo(idAdeudo) {
+            document.getElementById('id_adeudo').value = idAdeudo;
+            mostrarFormulario('.form-container-subadeudo');
+        }
+
+        function verSubadeudos(idAdeudo) {
+            const subadeudoRow = document.getElementById('subadeudos-' + idAdeudo);
+            if (subadeudoRow.style.display === 'none') {
+                fetch('ver_subadeudos.php?id_adeudo=' + idAdeudo)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('subadeudos-body-' + idAdeudo).innerHTML = data;
+                        subadeudoRow.style.display = 'table-row';
+                    })
+                    .catch(error => {
+                        alert('Error al cargar los subadeudos.');
+                        console.error('Error:', error);
+                    });
+            } else {
+                subadeudoRow.style.display = 'none';
+            }
+        }
+
+        function editarAdeudo(idAdeudo) {
+            // Lógica para editar un adeudo
+            console.log("Editar adeudo con ID: " + idAdeudo);
+        }
+
+        function eliminarAdeudo(idAdeudo) {
+            // Lógica para eliminar un adeudo
+            console.log("Eliminar adeudo con ID: " + idAdeudo);
+        }
     </script>
+
+        <!-- Filtrar adeudos -->
+<div class="filter-container">
+    <h2>Filtrar Adeudos</h2>
+    <label for="filtro-categoria">Categoría:</label>
+    <select id="filtro-categoria">
+        <option value="">Todas</option>
+        <option value="Personal">Personal</option>
+        <option value="Hogar">Hogar</option>
+        <option value="Vehicular">Vehicular</option>
+        <option value="Educación">Educación</option>
+        <option value="Salud">Salud</option>
+    </select>
+    
+    <label for="filtro-estado">Estado:</label>
+    <select id="filtro-estado">
+        <option value="">Todos</option>
+        <option value="Pendiente">Pendiente</option>
+        <option value="Pagado">Pagado</option>
+    </select>
+    
+    <button class="filter-btn" onclick="filtrarAdeudos()">Filtrar</button>
+</div>
+
+
+<script>
+    function filtrarAdeudos() {
+        const categoria = document.getElementById('filtro-categoria').value;
+        const estado = document.getElementById('filtro-estado').value;
+
+        fetch(`filtrar_adeudos.php?categoria=${categoria}&estado=${estado}`)
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector('tbody').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>
+
 
 </body>
 </html>
