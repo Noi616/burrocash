@@ -21,6 +21,8 @@ if ($conn->connect_error) {
 }
 ?>
 
+
+
 <?php
 $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo actual
 ?>
@@ -49,14 +51,6 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
 
     <!--Css propio-->
     <link rel="stylesheet" href="./estilos/prueba3.css">
-
-    <style>
-        .container {
-    max-width: 90%; /* Usa todo el ancho disponible */
-    padding: 2rem; /* Más espacio alrededor */
-}
-
-    </style>
 
 </head>
 
@@ -295,170 +289,123 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
 
 
 
-                <div class="container mt-5">
+                    
+
                 <div class="container mt-5 p-4 border rounded">
-        <h1 class="text-center mb-4">
-            Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?>, al apartado de Presupuestos
-        </h1>
+                <h1 class="text-center mb-4">
+    Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?>, al apartado de Ingresos
+</h1>
 
-        <!-- Mensajes de éxito o error -->
-        <?php if (isset($_GET['mensaje'])): ?>
-            <div class="alert alert-success">
-                <?php echo htmlspecialchars($_GET['mensaje']); ?>
-            </div>
-        <?php endif; ?>
 
-        <?php if (isset($_GET['error'])): ?>
-            <div class="alert alert-danger">
-                <?php echo htmlspecialchars($_GET['error']); ?>
-            </div>
-        <?php endif; ?>
-
-        <div class="mb-3 text-right">
-            <button class="btn" id="addBudgetButton" data-bs-toggle="modal" data-bs-target="#registerBudgetModal" style="background-color: #264d3e; color: white;">
-                <i class="fas fa-plus-circle"></i> Registrar Nuevo Presupuesto
-            </button>
+<!-- Mensajes de éxito o error -->
+<?php if (isset($_GET['mensaje'])): ?>
+        <div class="alert alert-success">
+            <?php echo htmlspecialchars($_GET['mensaje']); ?>
         </div>
+    <?php endif; ?>
 
-        <table class="table table-bordered">
-            <thead style="background-color: #264d3e; color: white;">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Ingresos</th>
-                    <th scope="col">Gastos</th>
-                    <th scope="col">Balance</th>
-                    <th scope="col">Fecha Inicio</th>
-                    <th scope="col">Fecha Fin</th>
-                    <th scope="col">Descripción</th>
-                    <th scope="col">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                // Consulta para obtener los presupuestos del usuario actual
-                $query = "SELECT id_presupuesto, nombre, ingresos, gastos, (ingresos - gastos) AS balance, fecha_inicio, fecha_fin, descripcion FROM presupuestos WHERE id_usuario = ?";
-                $stmt = $conn->prepare($query);
-                $stmt->bind_param('i', $_SESSION['id_usuario']);
-                $stmt->execute();
-                $result = $stmt->get_result();
+    <?php if (isset($_GET['error'])): ?>
+        <div class="alert alert-danger">
+            <?php echo htmlspecialchars($_GET['error']); ?>
+        </div>
+    <?php endif; ?>
 
-                if ($result && $result->num_rows > 0) {
-                    // Generar filas dinámicas
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>";
-                        echo "<th scope='row'>{$row['id_presupuesto']}</th>";
-                        echo "<td>" . htmlspecialchars($row['nombre']) . "</td>";
-                        echo "<td>$" . number_format($row['ingresos'], 2) . "</td>";
-                        echo "<td>$" . number_format($row['gastos'], 2) . "</td>";
-                        echo "<td>$" . number_format($row['balance'], 2) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['fecha_inicio']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['fecha_fin']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['descripcion']) . "</td>";
 
-                        // Botones de acciones (Editar y Eliminar)
-                        echo "<td class='text-center'>
-                                <button class='btn btn-success btn-sm edit-btn' data-id='{$row['id_presupuesto']}'><i class='fas fa-edit'></i> Editar</button>
-                                <button class='btn btn-danger btn-sm delete-btn' data-id='{$row['id_presupuesto']}'><i class='fas fa-trash'></i> Eliminar</button>
-                              </td>";
-                        echo "</tr>";
-                    }
-                } else {
-                    // Mensaje si no hay presupuestos
-                    echo "<tr><td colspan='9' class='text-center'>No hay presupuestos registrados.</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
+
+<div class="mb-3 text-right">
+    <button class="btn" id="addIncomeButton" data-toggle="modal" data-target="#registerIncomeModal" style="background-color: #264d3e; color: white;">
+        <i class="fas fa-plus-circle"></i> Registrar Nuevo Ingreso
+    </button>
+</div>
+
+    
+
+<table class="table table-bordered">
+    <thead style="background-color: #264d3e; color: white;">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Monto</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Categoría</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        // Consulta para obtener los ingresos del usuario actual
+        $query = "SELECT id_ingreso, monto, fecha, categoria, descripcion FROM ingreso WHERE id_usuario = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param('i', $_SESSION['id_usuario']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result && $result->num_rows > 0) {
+            // Generar filas dinámicas
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<th scope='row'>{$row['id_ingreso']}</th>";
+                echo "<td>$" . number_format($row['monto'], 2) . "</td>";
+                echo "<td>" . htmlspecialchars($row['fecha']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['categoria']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['descripcion']) . "</td>";
+
+                // Botones de acciones (Editar y Eliminar)
+                echo "<td class='text-center'>
+                        <button class='btn btn-success btn-sm edit-btn' data-id='{$row['id_ingreso']}'><i class='fas fa-edit'></i> Editar</button>
+                        <button class='btn btn-danger btn-sm delete-btn' data-id='{$row['id_ingreso']}'><i class='fas fa-trash'></i> Eliminar</button>
+                      </td>";
+                echo "</tr>";
+            }
+        } else {
+            // Mensaje si no hay ingresos
+            echo "<tr><td colspan='6' class='text-center'>No hay ingresos registrados.</td></tr>";
+        }
+        ?>
+    </tbody>
+</table>
+
     </div>
 
-    <<!-- Modal para registrar un nuevo presupuesto -->
-    <div class="modal fade" id="registerBudgetModal" tabindex="-1" role="dialog" aria-labelledby="registerBudgetModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="registerBudgetModalLabel">Registrar Nuevo Presupuesto</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="registerBudgetForm" method="POST" action="./php/registrar_presupuesto.php">
-                            <div class="mb-3">
-                                <label for="budgetName" class="form-label">Nombre del Presupuesto</label>
-                                <input type="text" class="form-control" id="budgetName" name="nombre" placeholder="Nombre del presupuesto" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="income" class="form-label">Ingresos Esperados</label>
-                                <input type="number" class="form-control" id="income" name="ingresos" placeholder="Monto de ingresos" step="0.01" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="expenses" class="form-label">Gastos Estimados</label>
-                                <input type="number" class="form-control" id="expenses" name="gastos" placeholder="Monto de gastos" step="0.01" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="startDate" class="form-label">Fecha de Inicio</label>
-                                <input type="date" class="form-control" id="startDate" name="fecha_inicio" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="endDate" class="form-label">Fecha de Fin</label>
-                                <input type="date" class="form-control" id="endDate" name="fecha_fin" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Descripción</label>
-                                <textarea class="form-control" id="description" name="descripcion" placeholder="Detalles sobre el presupuesto" rows="3"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">Guardar Presupuesto</button>
-                        </form>
-                    </div>
+    <!-- Modal para registrar nuevo ingreso -->
+    <div class="modal fade" id="registerIncomeModal" tabindex="-1" aria-labelledby="registerIncomeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerIncomeModalLabel">Registrar Nuevo Ingreso</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <form method="POST" action="./php/registrar_ingreso.php">
+                <div class="mb-3">
+                    <label for="incomeAmount" class="form-label">Monto del Ingreso</label>
+                    <input type="number" class="form-control" id="incomeAmount" name="monto" placeholder="Ingresa el monto" required>
+                </div>
+                <div class="mb-3">
+                    <label for="incomeDate" class="form-label">Fecha del Ingreso</label>
+                    <input type="date" class="form-control" id="incomeDate" name="fecha" required>
+                </div>
+                <div class="mb-3">
+                    <label for="incomeCategory" class="form-label">Categoría</label>
+                    <select class="form-select" id="incomeCategory" name="categoria" required>
+                        <option value="">Selecciona una categoría</option>
+                        <option value="Salario">Salario</option>
+                        <option value="Inversiones">Inversiones</option>
+                        <option value="Regalos">Regalos</option>
+                        <option value="Otros">Otros</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="incomeDescription" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="incomeDescription" name="descripcion" rows="3" placeholder="Descripción opcional"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Registrar Ingreso</button>
+            </form>
+
                 </div>
             </div>
         </div>
     </div>
-
-
-    <!-- Modal para editar presupuesto -->
-<div class="modal fade" id="editBudgetModal" tabindex="-1" role="dialog" aria-labelledby="editBudgetModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editBudgetModalLabel">Editar Presupuesto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-            <form id="editBudgetForm" method="POST" action="./php/editar_presupuesto.php">
-            <input type="hidden" id="editBudgetId" name="id_presupuesto">
-            <div class="mb-3">
-                <label for="editBudgetName" class="form-label">Nombre del Presupuesto</label>
-                <input type="text" class="form-control" id="editBudgetName" name="nombre" required>
-            </div>
-            <div class="mb-3">
-                <label for="editIncome" class="form-label">Ingresos</label>
-                <input type="number" class="form-control" id="editIncome" name="ingresos" required>
-            </div>
-            <div class="mb-3">
-                <label for="editExpenses" class="form-label">Gastos</label>
-                <input type="number" class="form-control" id="editExpenses" name="gastos" required>
-            </div>
-            <div class="mb-3">
-                <label for="editStartDate" class="form-label">Fecha de Inicio</label>
-                <input type="date" class="form-control" id="editStartDate" name="fecha_inicio" required>
-            </div>
-            <div class="mb-3">
-                <label for="editEndDate" class="form-label">Fecha de Fin</label>
-                <input type="date" class="form-control" id="editEndDate" name="fecha_fin" required>
-            </div>
-            <div class="mb-3">
-                <label for="editDescription" class="form-label">Descripción</label>
-                <textarea class="form-control" id="editDescription" name="descripcion"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        </form>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
 
 
                     
@@ -505,6 +452,55 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
  </div>
 </div>
 
+
+<!-- Modal para editar ingreso -->
+<div class="modal fade" id="editIncomeModal" tabindex="-1" role="dialog" aria-labelledby="editIncomeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editIncomeModalLabel">Editar Ingreso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <form method="POST" action="./php/editar_ingreso.php">
+    <input type="hidden" id="editIncomeId" name="id_ingreso">
+
+    <div class="form-group">
+        <label for="editIncomeAmount">Monto</label>
+        <input type="number" class="form-control" id="editIncomeAmount" name="monto" required>
+    </div>
+
+    <div class="form-group">
+        <label for="editIncomeDate">Fecha</label>
+        <input type="date" class="form-control" id="editIncomeDate" name="fecha" required>
+    </div>
+
+    <div class="form-group">
+        <label for="editIncomeCategory">Categoría</label>
+        <select class="form-control" id="editIncomeCategory" name="categoria" required>
+            <option value="Salario">Salario</option>
+            <option value="Inversiones">Inversiones</option>
+            <option value="Regalos">Regalos</option>
+            <option value="Otros">Otros</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="editIncomeDescription">Descripción</label>
+        <textarea class="form-control" id="editIncomeDescription" name="descripcion"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+</form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -522,9 +518,8 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
 <script src="js/demo/chart-area-demo.js"></script>
 <script src="js/demo/chart-pie-demo.js"></script>
 
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 <script>
     // Seleccionar el mensaje de éxito o error
@@ -538,7 +533,8 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
     }
 </script>
 
- <!-- Eliminar-->
+
+<!-- eliminar ingreso-->
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -546,16 +542,17 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
 
     deleteButtons.forEach(button => {
         button.addEventListener("click", () => {
-            const idPresupuesto = button.getAttribute("data-id");
+            const idIngreso = button.getAttribute("data-id");
 
-            if (confirm("¿Estás seguro de que deseas eliminar este presupuesto?")) {
-                fetch("./php/eliminar_presupuesto.php", {
+            if (confirm("¿Estás seguro de que deseas eliminar este ingreso?")) {
+                fetch("./php/eliminar_ingreso.php", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ id_presupuesto: idPresupuesto })
+                    body: JSON.stringify({ id_ingreso: idIngreso })
                 })
+
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
@@ -573,37 +570,42 @@ $current_page = basename($_SERVER['PHP_SELF']); // Obtiene el nombre del archivo
 
 </script>
 
+<!-- editar ingreso-->
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {
     const editButtons = document.querySelectorAll(".edit-btn");
 
     editButtons.forEach(button => {
         button.addEventListener("click", () => {
-            const idPresupuesto = button.getAttribute("data-id");
+            const idIngreso = button.getAttribute("data-id");
 
-            // Cargar datos del presupuesto en el modal
-            fetch(`./php/get_presupuesto.php?id_presupuesto=${idPresupuesto}`)
+            // Cargar datos del ingreso en el modal
+            fetch(`./php/get_ingreso.php?id_ingreso=${idIngreso}`)
                 .then(response => response.json())
                 .then(data => {
-                    // Rellena los campos del modal con los datos obtenidos
-                    document.getElementById("editBudgetId").value = data.presupuesto.id_presupuesto;
-                    document.getElementById("editBudgetName").value = data.presupuesto.nombre;
-                    document.getElementById("editIncome").value = data.presupuesto.ingresos;
-                    document.getElementById("editExpenses").value = data.presupuesto.gastos;
-                    document.getElementById("editStartDate").value = data.presupuesto.fecha_inicio;
-                    document.getElementById("editEndDate").value = data.presupuesto.fecha_fin;
-                    document.getElementById("editDescription").value = data.presupuesto.descripcion;
+                    if (data.success) {
+                        // Llenar los campos del formulario con los datos del ingreso
+                        document.getElementById("editIncomeId").value = data.ingreso.id_ingreso;
+                        document.getElementById("editIncomeAmount").value = data.ingreso.monto;
+                        document.getElementById("editIncomeDate").value = data.ingreso.fecha;
+                        document.getElementById("editIncomeCategory").value = data.ingreso.categoria;
+                        document.getElementById("editIncomeDescription").value = data.ingreso.descripcion;
 
-                    // Mostrar el modal
-                    const editModal = new bootstrap.Modal(document.getElementById('editBudgetModal'));
-                    editModal.show();
+                        // Mostrar el modal
+                        const editModal = new bootstrap.Modal(document.getElementById("editIncomeModal"));
+                        editModal.show();
+                    } else {
+                        alert(data.message);
+                    }
                 })
                 .catch(error => console.error("Error al cargar los datos:", error));
         });
     });
 });
+
 </script>
+
 
 </body>
 
