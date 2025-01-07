@@ -214,6 +214,7 @@
                         <th>Categoría</th>
                         <th>Estado</th>
                         <th>Acciones</th>
+                        <th>Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -236,6 +237,10 @@
                                         <td>
                                             <button onclick=\"registrarSubadeudo(" . $row['id_adeudo'] . ")\">Registrar Subadeudo</button>
                                             <button onclick=\"verSubadeudos(" . $row['id_adeudo'] . ")\">Ver Subadeudos</button>
+                                        </td>
+                                        <td>
+                                            <button class='btn btn-success btn-sm edit-btn' data-id='{$row['id_adeudo']}'><i class='fas fa-edit'></i> Editar</button>
+                                            <button class='btn btn-danger btn-sm delete-btn' data-id='{$row['id_adeudo']}'><i class='fas fa-trash'></i> Eliminar</button>
                                         </td>
                                     </tr>
                                     <tr id=\"subadeudos-" . $row['id_adeudo'] . "\" style=\"display:none;\">
@@ -293,16 +298,6 @@
                 subadeudoRow.style.display = 'none';
             }
         }
-
-        function editarAdeudo(idAdeudo) {
-            // Lógica para editar un adeudo
-            console.log("Editar adeudo con ID: " + idAdeudo);
-        }
-
-        function eliminarAdeudo(idAdeudo) {
-            // Lógica para eliminar un adeudo
-            console.log("Eliminar adeudo con ID: " + idAdeudo);
-        }
     </script>
 
         <!-- Filtrar adeudos -->
@@ -345,6 +340,58 @@
     }
 </script>
 
-
+<!-- Modal content --> 
+<div class="modal-content"> 
+    <span class="close">&times;</span> 
+    <form id="editForm"> 
+        <!-- Campos del formulario de edición --> 
+        <input type="hidden" id="editIdAdeudo" name="id_adeudo"> 
+        <label for="editAcreedor">Acreedor:</label> 
+        <input type="text" id="editAcreedor" name="acreedor"> 
+        <label for="editMonto">Monto:</label> 
+        <input type="number" id="editMonto" name="monto"> 
+        <label for="editFecha">Fecha:</label> 
+        <input type="date" id="editFecha" name="fecha"> 
+        <label for="editCategoria">Categoría:</label> 
+        <input type="text" id="editCategoria" name="categoria"> 
+        <label for="editEstado">Estado:</label> 
+        <input type="text" id="editEstado" name="estado"> 
+        <button type="submit">Guardar Cambios</button> 
+        </form> 
+        </div> 
+        </div> 
+        
+        <!-- JavaScript para manejar los eventos de clic y el modal --> 
+         <script> 
+         document.addEventListener('DOMContentLoaded', function() { 
+            const editBtns = document.querySelectorAll('.edit-btn'); 
+            const editModal = document.getElementById('editModal'); 
+            const editForm = document.getElementById('editForm'); 
+            const closeModal = document.getElementsByClassName('close')[0]; 
+        
+            editBtns.forEach(
+                btn => { btn.addEventListener('click', function() { 
+                    const id = this.getAttribute('data-id'); 
+                    // Hacer una solicitud para obtener los detalles del adeudo 
+                    fetch(`get_adeudo.php?id_adeudo=${id}`) 
+                    .then(response => response.json()) 
+                    .then(data => { 
+                    // Rellenar el formulario con los datos del adeudo 
+                    document.getElementById('editIdAdeudo').value = data.id_adeudo; 
+                    document.getElementById('editAcreedor').value = data.acreedor; 
+                    document.getElementById('editMonto').value = data.monto; document.getElementById('editFecha').value = data.fecha; document.getElementById('editCategoria').value = data.categoria; document.getElementById('editEstado').value = data.estado; 
+                    // Mostrar el modal 
+                    editModal.style.display = 'block'; }); }); }); 
+                    // // Manejar el cierre del modal 
+                    closeModal.addEventListener('click', function() { editModal.style.display = 'none'; }); 
+                    // Manejar el envío del formulario de edición 
+                    editForm.addEventListener('submit', function(e) { e.preventDefault(); const formData = new FormData(editForm); 
+     
+                    //Hacer una solicitud para actualizar el adeudo 
+                    fetch('editar_adeudo.php', { method: 'POST', body: formData }) 
+                    .then(response => response.json()) 
+                    .then(data => { if (data.success) { alert('Adeudo actualizado correctamente'); 
+                    location.reload(); } else { alert('Error al actualizar el adeudo'); } }); }); }); 
+                </script>
 </body>
 </html>
